@@ -11,6 +11,9 @@
     </style>
   </head>
   <body>
+    <audio id="background-music" autoplay loop preload="auto">
+      <source src="assets/audio/beautiful-in-white.mp3" type="audio/mpeg" />
+    </audio>
     <!-- The mirror includes the server-rendered preview but not its live backend. -->
     <iframe
       id="invitation-preview"
@@ -18,5 +21,13 @@
       sandbox
       src="chungdoi.com/templates/minimalism-dark-red/demo.html"
     ></iframe>
+    <script>
+      const backgroundMusic = document.querySelector('#background-music');
+      const startMusic = () => backgroundMusic.play().catch(() => {});
+
+      startMusic();
+      window.addEventListener('pointerdown', startMusic, { once: true });
+      window.addEventListener('keydown', startMusic, { once: true });
+    </script>
   </body>
 </html>
