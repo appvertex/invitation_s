@@ -1,0 +1,8 @@
+# HTTrack session data can contain cookies and other local metadata.
+cookies.txt
+hts-cache/
+hts-log.txt
+
+# Local Python server artifacts.
+__pycache__/
+.DS_Store
