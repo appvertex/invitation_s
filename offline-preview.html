@@ -8,20 +8,6 @@
       html, body { width: 100%; height: 100%; margin: 0; }
       body { background: #fff; }
       #invitation-preview { width: 100%; height: 100%; border: 0; }
-      #music-player {
-        position: fixed;
-        right: 16px;
-        bottom: 16px;
-        z-index: 10;
-        width: 240px;
-        height: 135px;
-        border: 0;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
-      }
-      @media (max-width: 600px) {
-        #music-player { width: 160px; height: 90px; right: 10px; bottom: 10px; }
-      }
     </style>
   </head>
   <body>
@@ -32,18 +18,5 @@
       sandbox
       src="chungdoi.com/templates/minimalism-dark-red/demo.html"
     ></iframe>
-    <iframe
-      id="music-player"
-      title="Beautiful In White by Shane Filan"
-      data-player-url="https://www.youtube.com/embed/06-XXOTP3Gc?autoplay=1&amp;loop=1&amp;playlist=06-XXOTP3Gc&amp;playsinline=1&amp;rel=0"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      referrerpolicy="strict-origin-when-cross-origin"
-    ></iframe>
-    <script>
-      const musicPlayer = document.querySelector('#music-player');
-      const playerUrl = new URL(musicPlayer.dataset.playerUrl);
-      playerUrl.searchParams.set('origin', window.location.origin);
-      musicPlayer.src = playerUrl;
-    </script>
   </body>
 </html>
