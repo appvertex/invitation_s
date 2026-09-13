@@ -8,62 +8,33 @@
       html, body { width: 100%; height: 100%; margin: 0; }
       body { background: #fff; }
       #invitation-preview { width: 100%; height: 100%; border: 0; }
-      #music-toggle {
-        position: fixed;
-        right: 18px;
-        bottom: 18px;
-        z-index: 10;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border: 1px solid rgb(255 255 255 / 45%);
-        border-radius: 999px;
-        background: #6b2026;
-        color: #fffaf0;
-        box-shadow: 0 6px 18px rgb(0 0 0 / 28%);
-        cursor: pointer;
-        font: 600 14px system-ui, sans-serif;
-      }
-      #music-toggle:hover { background: #842a31; }
     </style>
   </head>
   <body>
     <audio id="background-music" autoplay loop preload="auto">
       <source src="assets/audio/beautiful-in-white.mp3" type="audio/mpeg" />
     </audio>
-    <button id="music-toggle" type="button" aria-pressed="false">
-      <span aria-hidden="true">▶</span><span>Play music</span>
-    </button>
     <!-- The mirror includes the server-rendered preview but not its live backend. -->
     <iframe
       id="invitation-preview"
       title="Offline invitation preview"
-      sandbox
+      sandbox="allow-same-origin"
       src="chungdoi.com/templates/minimalism-dark-red/demo.html"
     ></iframe>
     <script>
       const backgroundMusic = document.querySelector('#background-music');
-      const musicToggle = document.querySelector('#music-toggle');
-
-      const updateMusicButton = () => {
-        const isPlaying = !backgroundMusic.paused;
-        musicToggle.setAttribute('aria-pressed', String(isPlaying));
-        musicToggle.innerHTML = isPlaying
-          ? '<span aria-hidden="true">❚❚</span><span>Pause music</span>'
-          : '<span aria-hidden="true">▶</span><span>Play music</span>';
+      const invitationPreview = document.querySelector('#invitation-preview');
+      const startMusic = () => backgroundMusic.play().catch(() => {});
+      const listenForInvitationGesture = () => {
+        const invitationDocument = invitationPreview.contentDocument;
+        invitationDocument?.addEventListener('pointerdown', startMusic, { once: true, capture: true });
+        invitationDocument?.addEventListener('keydown', startMusic, { once: true, capture: true });
       };
-      const startMusic = () => backgroundMusic.play().then(updateMusicButton).catch(updateMusicButton);
 
       startMusic();
       window.addEventListener('pointerdown', startMusic, { once: true });
       window.addEventListener('keydown', startMusic, { once: true });
-      musicToggle.addEventListener('click', () => {
-        if (backgroundMusic.paused) startMusic();
-        else backgroundMusic.pause();
-      });
-      backgroundMusic.addEventListener('play', updateMusicButton);
-      backgroundMusic.addEventListener('pause', updateMusicButton);
+      invitationPreview.addEventListener('load', listenForInvitationGesture);
     </script>
   </body>
 </html>
